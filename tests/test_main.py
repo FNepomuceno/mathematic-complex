@@ -4,7 +4,11 @@ def test_config():
     assert not create_app().testing
     assert create_app({'TESTING': True}).testing
 
-def test_index(client):
+def test_index(client, captured_templates):
     response = client.get('/')
+
     assert response.status == '200 OK'
-    assert response.data == b'Hello, world!'
+    assert len(captured_templates) == 1
+
+    template, context = captured_templates[0]
+    assert template.name == 'main/index.html'
