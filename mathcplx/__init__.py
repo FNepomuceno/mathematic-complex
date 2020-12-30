@@ -27,9 +27,8 @@ def create_app(test_config=None):
     from . import db
     db.init_app(app)
 
-    # Sample page
-    @app.route('/')
-    def hello():
-        return 'Hello, world!'
+    from . import main
+    app.register_blueprint(main.bp)
+    app.add_url_rule('/', endpoint='index')
 
     return app
